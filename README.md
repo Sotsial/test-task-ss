@@ -1,30 +1,55 @@
-# React + TypeScript + Vite
+# Техническое задание для проекта "Блог с авторизацией и функциональностью CRUD"
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Запуск проекта
 
-Currently, two official plugins are available:
+- npm i
+- npm run dev
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Стек технологий
 
-## Expanding the ESLint configuration
+- React
+- Typescript
+- Vite
+- Redux Toolkit / persist
+- Axios
+- Json-server
+- React Router
+- Material UI
+- react-toastify - для уведомлений
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Авторизация
 
-- Configure the top-level `parserOptions` property like this:
+Тестовый пользователь
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+- Логин: john@mail.com
+- Пароль: changeme
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+При авторизации происходит запрос на https://fakeapi.platzi.com/ (FakeApi service) для получение access_token и сохранение его в localstorage
+
+## Блог
+
+- Все запросы идут на локальный сервер развернутый через json-server
+- Для запросов создан отдельный Instance
+- Все запросы имитируют задержку в 1 сек (jsonServerConfig.ts => 20 строка) + лоадер в таблице
+- Реализована редактирование, Создание, Удаление после которых срабатывает уведомление
+- Настроена локальная пагинация
+- Страница конкретного блога открывается при клике на блог из списка + лоадер
+
+## Counter
+
+- Возможность увеличения/уменьшения значения счетчик
+- Состояние счетчика хранится в отдельном slice
+- persist сохраняет значение после перезагрузки страницы
+
+## FakeApi
+
+- Все запросы идут на https://fakeapi.platzi.com/ (FakeApi service)
+- Каждый запрос отправляет Authorization: Bearer token, полученный при авторизации
+- До загрузки отображается loader
+
+## Общее
+
+- Роутинг разделяет страницы на publicRoute и privateRoute
+- Если в запросе приходит 401 статус токен будет удален
+- Фронтенд был написан на архитектуре Feature-Sliced Design
+- Использовалась создание темы MUI (Все оставил стандартным)
